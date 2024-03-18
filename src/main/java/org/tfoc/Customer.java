@@ -3,6 +3,8 @@ package org.tfoc;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.tfoc.Category.NEW_RELEASE;
+
 public class Customer {
 
     private String _name;
@@ -26,34 +28,17 @@ public class Customer {
         String result = "Rental Record for " + getName() + "\n";
 
         for (Rental each : _rentals) {
-            double thisAmount = 0;
-
-            //determine amounts for each line
-            switch (each.movie().getPriceCode()) {
-                case Movie.REGULAR:
-                    thisAmount += 2;
-                    if (each.daysRented() > 2) {
-                        thisAmount += (each.daysRented() - 2) * 1.5;
-                    }
-                    break;
-                case Movie.NEW_RELEASE:
-                    thisAmount += each.daysRented() * 3;
-                    break;
-                case Movie.CHILDRENS:
-                    thisAmount += 1.5;
-                    if (each.daysRented() > 3) {thisAmount += (each.daysRented() - 3) * 1.5;}
-                    break;
-            }
+            double thisAmount = each.movie().category().calculatePrice(each.daysRented());
 
             // add frequent renter points
             frequentRenterPoints++;
             // add bonus for a two day new release rental
-            if ((each.movie().getPriceCode() == Movie.NEW_RELEASE) && each.daysRented() > 1) {
+            if ((each.movie().category() == NEW_RELEASE) && each.daysRented() > 1) {
                 frequentRenterPoints++;
             }
 
             // show figures for this rental
-            result += "\t" + each.movie().getTitle() + "\t" + String.valueOf(thisAmount) + "\n";
+            result += "\t" + each.movie().title() + "\t" + String.valueOf(thisAmount) + "\n";
             totalAmount += thisAmount;
         }
 
