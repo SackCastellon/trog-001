@@ -1,23 +1,31 @@
 package org.tfoc;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class Customer {
-
-    private String _name;
-    private List<Rental> _rentals = new ArrayList<Rental>();
+@Getter
+public final class Customer {
+    private final String name;
+    private final List<Rental> rentals;
 
     public Customer(String name) {
-        _name = name;
+        this(name, List.of());
     }
 
-    public void addRental(Rental arg) {
-        _rentals.add(arg);
+    public Customer(String name, List<Rental> rentals) {
+        this.name = name;
+        this.rentals = new ArrayList<>(rentals);
     }
 
-    public String getName() {
-        return _name;
+    public List<Rental> getRentals() {
+        return Collections.unmodifiableList(rentals);
+    }
+
+    public void addRental(Rental rental) {
+        rentals.add(rental);
     }
 
     public String statement() {
@@ -25,7 +33,7 @@ public class Customer {
         int frequentRenterPoints = 0;
         String result = "Rental Record for " + getName() + "\n";
 
-        for (Rental each : _rentals) {
+        for (Rental each : getRentals()) {
             var category = each.movie().category();
             double thisAmount = category.calculatePrice(each.daysRented());
 
@@ -43,5 +51,4 @@ public class Customer {
 
         return result;
     }
-
 }

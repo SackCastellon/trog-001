@@ -11,11 +11,7 @@ public class CustomerBuilder {
     private List<Rental> rentals = new ArrayList<Rental>();
 
     public Customer build() {
-        Customer result = new Customer(name);
-        for (Rental rental : rentals) {
-            result.addRental(rental);
-        }
-        return result;
+        return new Customer(name, rentals);
     }
 
     public CustomerBuilder withName(String name) {
