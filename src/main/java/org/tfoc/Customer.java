@@ -28,27 +28,26 @@ public final class Customer {
         rentals.add(rental);
     }
 
-    public String statement() {
-        double totalAmount = 0;
-        int frequentRenterPoints = 0;
-        String result = "Rental Record for " + getName() + "\n";
+    public String getStatement() {
+        var totalAmount = 0.0;
+        var totalPoints = 0;
 
-        for (Rental each : getRentals()) {
-            var category = each.movie().category();
-            double thisAmount = category.calculatePrice(each.daysRented());
+        var builder = new StringBuilder();
+        builder.append("Rental Record for %s%n".formatted(getName()));
 
-            // add frequent renter points
-            frequentRenterPoints += category.calculatePoints(each.daysRented());
+        for (var rental : getRentals()) {
+            var price = rental.price();
 
-            // show figures for this rental
-            result += "\t" + each.movie().title() + "\t" + String.valueOf(thisAmount) + "\n";
-            totalAmount += thisAmount;
+            totalAmount += price;
+            totalPoints += rental.points();
+
+            builder.append("\t%s\t%.1f%n".formatted(rental.movie().title(), price));
         }
 
         // add footer lines
-        result += "Amount owed is " + String.valueOf(totalAmount) + "\n";
-        result += "You earned " + String.valueOf(frequentRenterPoints) + " frequent renter points";
+        builder.append("Amount owed is %s%n".formatted(totalAmount));
+        builder.append("You earned %d frequent renter points".formatted(totalPoints));
 
-        return result;
+        return builder.toString();
     }
 }
