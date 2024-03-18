@@ -3,8 +3,6 @@ package org.tfoc;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.tfoc.Category.NEW_RELEASE;
-
 public class Customer {
 
     private String _name;
@@ -28,14 +26,11 @@ public class Customer {
         String result = "Rental Record for " + getName() + "\n";
 
         for (Rental each : _rentals) {
-            double thisAmount = each.movie().category().calculatePrice(each.daysRented());
+            var category = each.movie().category();
+            double thisAmount = category.calculatePrice(each.daysRented());
 
             // add frequent renter points
-            frequentRenterPoints++;
-            // add bonus for a two day new release rental
-            if ((each.movie().category() == NEW_RELEASE) && each.daysRented() > 1) {
-                frequentRenterPoints++;
-            }
+            frequentRenterPoints += category.calculatePoints(each.daysRented());
 
             // show figures for this rental
             result += "\t" + each.movie().title() + "\t" + String.valueOf(thisAmount) + "\n";

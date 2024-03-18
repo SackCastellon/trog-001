@@ -26,8 +26,21 @@ public enum Category {
         public double calculatePrice(int daysRented) {
             return daysRented * 3.0;
         }
+
+        @Override
+        public int calculatePoints(int daysRented) {
+            // add bonus for a two-day new release rental
+            if (daysRented > 1) {
+                return super.calculatePoints(daysRented) + 1;
+            } else {
+                return super.calculatePoints(daysRented);
+            }
+        }
     };
 
     public abstract double calculatePrice(int daysRented);
 
+    public int calculatePoints(int daysRented) {
+        return 1;
+    }
 }
