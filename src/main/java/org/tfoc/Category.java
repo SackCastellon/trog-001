@@ -11,7 +11,7 @@ public enum Category {
             }
         }
     },
-    CHILDRENS {
+    CHILDREN {
         @Override
         public double calculatePrice(int daysRented) {
             if (daysRented > 3) {

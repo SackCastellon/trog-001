@@ -66,7 +66,7 @@ class CustomerTest {
 
     @Test
     public void statementForChildrensMovie() {
-        Movie movie1 = new Movie("Madagascar", CHILDRENS);
+        Movie movie1 = new Movie("Madagascar", CHILDREN);
         Rental rental1 = new Rental(movie1, 3); // 3 day rental
         Customer customer2
                 = new CustomerBuilder()
@@ -83,7 +83,7 @@ class CustomerTest {
 
     @Test
     public void statementForManyMovies() {
-        Movie movie1 = new Movie("Madagascar", CHILDRENS);
+        Movie movie1 = new Movie("Madagascar", CHILDREN);
         Rental rental1 = new Rental(movie1, 6); // 6 day rental
         Movie movie2 = new Movie("Star Wars", NEW_RELEASE);
         Rental rental2 = new Rental(movie2, 2); // 2 day rental
