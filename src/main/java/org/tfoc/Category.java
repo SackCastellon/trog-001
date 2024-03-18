@@ -4,21 +4,13 @@ public enum Category {
     REGULAR {
         @Override
         public double calculatePrice(int daysRented) {
-            if (daysRented > 2) {
-                return 2 + (daysRented - 2) * 1.5;
-            } else {
-                return 2;
-            }
+            return 2 + Math.max(daysRented - 2, 0) * 1.5;
         }
     },
     CHILDREN {
         @Override
         public double calculatePrice(int daysRented) {
-            if (daysRented > 3) {
-                return 1.5 + (daysRented - 3) * 1.5;
-            } else {
-                return 1.5;
-            }
+            return 1.5 + Math.max(daysRented - 3, 0) * 1.5;
         }
     },
     NEW_RELEASE {
@@ -30,11 +22,8 @@ public enum Category {
         @Override
         public int calculatePoints(int daysRented) {
             // add bonus for a two-day new release rental
-            if (daysRented > 1) {
-                return super.calculatePoints(daysRented) + 1;
-            } else {
-                return super.calculatePoints(daysRented);
-            }
+            var basePoints = super.calculatePoints(daysRented);
+            return daysRented > 1 ? basePoints + 1 : basePoints;
         }
     };
 
