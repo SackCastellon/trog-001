@@ -8,7 +8,7 @@ public class CustomerBuilder {
 
     public static final String NAME = "Gregroire";
     private String name = NAME;
-    private List<Rental> rentals = new ArrayList<Rental>();
+    private final List<Rental> rentals = new ArrayList<>();
 
     public Customer build() {
         return new Customer(name, rentals);
