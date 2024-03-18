@@ -1,30 +1,20 @@
 package org.tfoc;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@Getter
-@EqualsAndHashCode
-@ToString
-public final class Customer {
-    private final String name;
-    private final List<Rental> rentals;
+public record Customer(String name, List<Rental> rentals) {
+    public Customer {
+        rentals = new ArrayList<>(rentals);
+    }
 
     public Customer(String name) {
         this(name, List.of());
     }
 
-    public Customer(String name, List<Rental> rentals) {
-        this.name = name;
-        this.rentals = new ArrayList<>(rentals);
-    }
-
-    public List<Rental> getRentals() {
+    @Override
+    public List<Rental> rentals() {
         return Collections.unmodifiableList(rentals);
     }
 
@@ -37,9 +27,9 @@ public final class Customer {
         var totalPoints = 0;
 
         var builder = new StringBuilder();
-        builder.append("Rental Record for %s%n".formatted(getName()));
+        builder.append("Rental Record for %s%n".formatted(name()));
 
-        for (var rental : getRentals()) {
+        for (var rental : rentals()) {
             var price = rental.price();
 
             totalAmount += price;
